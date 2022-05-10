@@ -4,8 +4,8 @@ namespace DataAccessLayer.Services
 {
     public class CommonServices<T> where T : class
     {
-        private readonly GuestManagementSystemContext _guestManagementSystemContext;
-        private DbSet<T> _entities;
+        internal readonly GuestManagementSystemContext _guestManagementSystemContext;
+        internal DbSet<T> _entities;
 
         public CommonServices(GuestManagementSystemContext guestManagementSystemContext)
         {
@@ -13,38 +13,45 @@ namespace DataAccessLayer.Services
             _entities = _guestManagementSystemContext.Set<T>();            
         }
 
-        public IEnumerable<T> GetAll()
+        public async Task<IEnumerable<T>?> GetAllAsync()
         {
-            return _entities.AsEnumerable();
+            var entities = await _entities.ToListAsync();
+
+            if (entities == null)
+            {
+                return null;
+            }
+
+            return entities;
         }
         
-        public void Insert(T entity)
+        public async Task<int> Insert(T entity)
         {
             if (entity == null)
             {
-                throw new ArgumentNullException("entity");
+                return default(int);
             }
             _entities.Add(entity);
-            _guestManagementSystemContext.SaveChanges();
+            return await _guestManagementSystemContext.SaveChangesAsync();
         }
 
-        public void Update(T entity)
+        public async Task<int> Update(T entity)
         {
             if (entity == null)
             {
-                throw new ArgumentNullException("entity");
+                return default(int);
             }
-            _guestManagementSystemContext.SaveChanges();
+            return await _guestManagementSystemContext.SaveChangesAsync();
         }
 
-        public void Delete(T entity)
+        public async Task<int> Delete(T entity)
         {
             if (entity == null)
             {
-                throw new ArgumentNullException("entity");
+                return default(int);
             }
             _entities.Remove(entity);
-            _guestManagementSystemContext.SaveChanges();
+            return await _guestManagementSystemContext.SaveChangesAsync();
         }
     }
 }
