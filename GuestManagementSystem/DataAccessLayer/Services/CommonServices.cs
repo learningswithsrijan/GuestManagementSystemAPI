@@ -10,7 +10,7 @@ namespace DataAccessLayer.Services
         public CommonServices(GuestManagementSystemContext guestManagementSystemContext)
         {
             this._guestManagementSystemContext = guestManagementSystemContext;
-            _entities = _guestManagementSystemContext.Set<T>();
+            _entities = _guestManagementSystemContext.Set<T>();            
         }
 
         public IEnumerable<T> GetAll()

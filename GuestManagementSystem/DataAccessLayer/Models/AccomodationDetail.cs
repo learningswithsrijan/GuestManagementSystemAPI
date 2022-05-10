@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DataAccessLayer
+namespace DataAccessLayer.Models
 {
     public partial class AccomodationDetail
     {
